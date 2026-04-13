@@ -27,6 +27,13 @@ jobs:
         with:
           name: alpine-virt-image.qcow2.bz2
           path: "*.bz2"
+          
+      - name: Print Alpine Version
+        run: |
+          echo "=== Build Environment ==="
+          cat /etc/os-release
+          echo "=== Alpine Version ==="
+          cat /etc/alpine-release || echo "Alpine file not found in runner"
 
       - name: Read version
         id: getversion
