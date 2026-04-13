@@ -27,20 +27,15 @@ jobs:
         with:
           name: alpine-virt-image.qcow2.bz2
           path: "*.bz2"
-          
-      - name: Print Alpine Version
-        run: |
-          echo "=== Build Environment ==="
-          cat /etc/os-release
-          echo "=== Alpine Version ==="
-          cat /etc/alpine-release || echo "Alpine file not found in runner"
 
-      - name: Read version
+      - name: Install chroot
+        run: |
+          sudo ./alpine-chroot/alpine-chroot-install -d /alpine
+
+      - name: Version (Alpine Linux)
         id: getversion
         run: |
-          VERSION=$(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' version)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-        shell: bash
+          sudo cat /alpine/etc/os-release
 
       - uses: marvinpinto/action-automatic-releases@latest
         if: github.ref == 'refs/heads/master'
