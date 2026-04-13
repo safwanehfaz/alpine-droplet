@@ -18,7 +18,7 @@ jobs:
           submodules: true
 
       - name: Install dependencies
-        run: sudo apt update && sudo apt install qemu-utils bzip2
+        run: sudo apt update && sudo apt install qemu-utils bzip2 bash
 
       - name: Build
         run: sudo -E ./build-image.sh
@@ -31,8 +31,9 @@ jobs:
       - name: Read version
         id: getversion
         run: |
-          VERSION=$(cat version) 
+          VERSION=$(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' version)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+        shell: bash
 
       - uses: marvinpinto/action-automatic-releases@latest
         if: github.ref == 'refs/heads/master'
