@@ -30,7 +30,9 @@ jobs:
 
       - name: Read version
         id: getversion
-        run: echo "::set-output name={version}::{cat-version}"
+        run: |
+          VERSION=$(cat version.txt) 
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - uses: marvinpinto/action-automatic-releases@latest
         if: github.ref == 'refs/heads/master'
